@@ -8,9 +8,9 @@ exports.createProject = catchAsyncError(async (req, res, next) => {
 
   try {
 
-    const {cid,name,mpa,cubic_meter,cft_quantity}= req.body
+    const {cid,name,site_eng_name,site_eng_phone,address}= req.body
     await Project
-     .create({cid,name,mpa,cubic_meter,cft_quantity
+     .create({cid,name,site_eng_name,site_eng_phone,address
 
      }).then((data) => {
         res.status(200).send({

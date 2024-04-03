@@ -12,17 +12,24 @@ const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize({
   //  Local
-  database: "railway",
+  database: "readymix",
   username: "postgres",
-  password: "aWiJIpNVygwKOHdnOqjDsurUJlPRQcFv",
-  host: "monorail.proxy.rlwy.net",
-  port: 52942,
+  password: "123456",
+  host: "localhost",
+  port: 5432,
   dialect: "postgres",
-  dialectOptions: {
-    ssl: {
-        rejectUnauthorized: false
-    }
-  },
+
+  // database: "railway",
+  // username: "postgres",
+  // password: "aWiJIpNVygwKOHdnOqjDsurUJlPRQcFv",
+  // host: "monorail.proxy.rlwy.net",
+  // port: 52942,
+  // dialect: "postgres",
+  // dialectOptions: {
+  //   ssl: {
+  //       rejectUnauthorized: false
+  //   }
+  // },
 
   // pool: {
   //   max: dbConfig.pool.max,
@@ -61,10 +68,27 @@ db.sells.belongsTo(db.project, {
   as: "project",
 });
 
-db.sells.hasOne(db.workOrder, { foreignKey: "sid", as: "workorder" });
+// db.sellsReport.hasOne(db.workOrder,{foreignKey:'wid',as:'workorder'})
+// db.workOrder.hasOne(db.company, { foreignKey: "cid", as: "company" });
+// db.workOrder.hasOne(db.project, { foreignKey: "pid", as: "project" });
+// db.sells.hasOne(db.workOrder, { foreignKey: "sid", as: "workorder" });
 db.sellsReport.hasMany(db.invoice, { foreignKey: "srid", as: "invoice" });
 // db.sellsReport.hasOne(db.workOrder, { foreignKey: "srid", as: "workorder" });
 // db.sellsReport.hasOne(db.invoice, { foreignKey: "srid", as: "invoice" });
+
+db.sellsReport.belongsTo(db.workOrder, {
+  foreignKey: "wid",
+  as: "workorder",
+});
+
+db.workOrder.belongsTo(db.company, {
+  foreignKey: "cid",
+  as: "company",
+});
+db.workOrder.belongsTo(db.project, {
+  foreignKey: "pid",
+  as: "project",
+});
 
 db.sellsReport.belongsTo(db.company, {
   foreignKey: "cid",
@@ -74,6 +98,7 @@ db.sellsReport.belongsTo(db.project, {
   foreignKey: "pid",
   as: "project",
 });
+
 
 
 module.exports = db;

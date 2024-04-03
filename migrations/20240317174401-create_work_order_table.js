@@ -23,13 +23,7 @@ module.exports = {
         references: { model: "projects", key: "id" },
         onDelete: "CASCADE",
       },
-      sid: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-        unique: true,
-        references: { model: "sells", key: "id" },
-        onDelete: "CASCADE",
-      },
+
       issue_date: {
         type: "TIMESTAMP",
         allowNull: false,
@@ -51,9 +45,12 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: false,
       },
-      b_status: {
-        type: Sequelize.STRING,
+      total_amount:{
+        type:Sequelize.DECIMAL(10, 2),
         allowNull: false,
+        validate: {
+          notNull: { msg: "Total amount needs to provide" },
+        },
       },
       order_date: {
         type: "TIMESTAMP",
@@ -73,13 +70,17 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      c_name: {
+      site_eng_name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      c_no: {
+      site_eng_phone: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      status: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

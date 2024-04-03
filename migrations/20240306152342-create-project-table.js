@@ -21,27 +21,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      mpa:{
-        type:Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          notNull: { msg: "mpa needs to provide" },
-        },
+      address: {
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
-      cubic_meter:{
-        type:Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          notNull: { msg: "cubic_meter needs to provide" },
-        },
+      site_eng_name: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
-      cft_quantity:{
-        type:Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          notNull: { msg: "cft needs to provide" },
-        },
+      site_eng_phone: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
+     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

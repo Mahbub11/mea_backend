@@ -4,6 +4,7 @@ const db = require("../model/index");
 // const Company= db.company
 const Sells = db.sells;
 const sellsReport = db.sellsReport;
+const WorkOrder= db.workOrder
 
 exports.createSellsReport = catchAsyncError(async (req, res, next) => {
   try {
@@ -19,8 +20,9 @@ exports.createSellsReport = catchAsyncError(async (req, res, next) => {
       remarks,
       pump_charge,
       due_date,
-      sid,
+      wid,
     } = req.body;
+    console.log(req.body)
 
     await sellsReport
       .create({
@@ -35,11 +37,11 @@ exports.createSellsReport = catchAsyncError(async (req, res, next) => {
         pump_charge,
         due_date,
         paid_amount:0,
-        sid: sid,
+        wid
       })
       .then(async (data) => {
-        await Sells.update({status : 1}, {
-          where: { id: sid },
+        await WorkOrder.update({status : 1}, {
+          where: { id: wid },
         });
         res.status(200).send({
           success: true,
@@ -60,10 +62,10 @@ exports.getSellsReportList = catchAsyncError(async (req, res, next) => {
     let data = null;
     if (id) {
       data = await sellsReport.findByPk(id, {
-        include: ["company", "project"],
+        include: ["company", "project",'workorder'],
       });
     } else {
-      data = await sellsReport.findAll({ include: ["company", "project"] });
+      data = await sellsReport.findAll({ include: ["company", "project",'workorder'] });
     }
 
     if (!data) {

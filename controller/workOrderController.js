@@ -8,37 +8,39 @@ exports.createWorkOrder = catchAsyncError(async (req, res, next) => {
     const {
       cid,
       pid,
-      sid,
       issue_date,
       address,
       subject,
       message,
       items,
-      b_status,
       order_date,
       delivery_date,
       delivery_time,
       delivery_address,
-      c_name,
-      c_no,
+      site_eng_name,
+      site_eng_phone,
+      status,
+      total_amount
     } = req.body;
 
+
+    console.log(req.body)
     await WorkOrder.create({
       cid,
       pid,
-      sid,
       issue_date,
       address,
       subject,
       message,
       items,
-      b_status,
       order_date,
       delivery_date,
       delivery_time,
       delivery_address,
-      c_name,
-      c_no,
+      site_eng_name,
+      site_eng_phone,
+      status,
+      total_amount
     })
       .then((data) => {
         res.status(200).send({

@@ -11,10 +11,6 @@ module.exports = {
         onDelete: "CASCADE",
         autoIncrement: true,
       },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       cid: {
         type: Sequelize.BIGINT,
         allowNull: false,
@@ -27,27 +23,14 @@ module.exports = {
         references: { model: "projects", key: "id" },
         onDelete: "CASCADE",
       },
-      sid: {
+      wid: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        references: { model: "sells", key: "id" },
+        references: { model: "workorders", key: "id" },
         onDelete: "CASCADE",
         comment:'sell item id'
       },
-      unit: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          notNull: { msg: "unit needs to provide" },
-        },
-      },
-      unit_rate: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-          notNull: { msg: "unit_rate needs to provide" },
-        },
-      },
+     
       total_amount: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
