@@ -9,29 +9,49 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
   try {
     const { items } = req.body;
 
-    const record = await Inventory.findOne({raw: true,});
-  
-    
-    await Inventory.update({
-      sand:parseFloat(record.sand)+ parseFloat((items.find((obj) => obj.itemName === "sand") || { amount: "0" })
-      .amount),
-      cement:parseFloat(record.cement)+ parseFloat((
-        items.find((obj) => obj.itemName === "cement") || { amount: "0" }
-      ).amount),
+    const record = await Inventory.findOne({ raw: true });
 
-      stone:parseFloat(record.stone)+ parseFloat((items.find((obj) => obj.itemName === "stone") || { amount: "0" })
-      .amount),
+    await Inventory.update(
+      {
+        sand:
+          parseFloat(record.sand) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "sand") || { amount: "0" })
+              .amount
+          ),
+        cement:
+          parseFloat(record.cement) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "cement") || { amount: "0" })
+              .amount
+          ),
 
-      admixer:parseFloat(record.cement)+ parseFloat((
-        items.find((obj) => obj.itemName === "admixer") || { amount: "0" }
-      ).amount),
+        stone:
+          parseFloat(record.stone) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "stone") || { amount: "0" })
+              .amount
+          ),
 
-      bricks_chips:parseFloat(record.cement)+ parseFloat(
-        (
-          items.find((obj) => obj.itemName === "bricks_chips") || { amount: "0" }
-        ).amount
-      ),
-    },{where:{id:1}})
+        admixer:
+          parseFloat(record.cement) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "admixer") || { amount: "0" })
+              .amount
+          ),
+
+        bricks_chips:
+          parseFloat(record.cement) +
+          parseFloat(
+            (
+              items.find((obj) => obj.itemName === "bricks_chips") || {
+                amount: "0",
+              }
+            ).amount
+          ),
+      },
+      { where: { id: 1 } }
+    )
       .then(async (data) => {
         await PurchaseList.create({
           sand: ((item) =>
@@ -78,10 +98,10 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
         });
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         return next(new ErrorHandler(err.errors[0].message, 400));
       });
-    return;
+
     items.map(async (value, index) => {
       const { itemName, rate, amount, misItemName } = value;
 

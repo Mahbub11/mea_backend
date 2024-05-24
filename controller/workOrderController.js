@@ -2,6 +2,7 @@ const catchAsyncError = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const db = require("../model/index");
 const WorkOrder = db.workOrder;
+const Inventory = db.inventory;
 
 exports.createWorkOrder = catchAsyncError(async (req, res, next) => {
   try {
@@ -23,8 +24,64 @@ exports.createWorkOrder = catchAsyncError(async (req, res, next) => {
       total_amount
     } = req.body;
 
+    await Inventory.update(
+      {
+        sand:
+          parseFloat(record.sand) +
+          parseFloat(
+            (items.find((obj) => obj.materials_category === 28) || { amount: "0" })
+              .amount
+          ),
+        cement:
+          parseFloat(record.cement) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "cement") || { amount: "0" })
+              .amount
+          ),
 
-    console.log(req.body)
+        stone:
+          parseFloat(record.stone) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "stone") || { amount: "0" })
+              .amount
+          ),
+
+        admixer:
+          parseFloat(record.cement) +
+          parseFloat(
+            (items.find((obj) => obj.itemName === "admixer") || { amount: "0" })
+              .amount
+          ),
+
+        bricks_chips:
+          parseFloat(record.cement) +
+          parseFloat(
+            (
+              items.find((obj) => obj.itemName === "bricks_chips") || {
+                amount: "0",
+              }
+            ).amount
+          ),
+      },
+      { where: { id: 1 } }
+    )
+    
+    .then(res=>{
+      console.log('Saved')
+    }).catch(err=>{
+      console.log(err)
+    })
+
+    // items.map((val,key)=>{
+    //   if(val.materials_category===21){
+
+
+    //   }
+    // })
+
+    console.log(items)
+
+    return
     await WorkOrder.create({
       cid,
       pid,

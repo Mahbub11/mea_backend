@@ -14,7 +14,7 @@ const sequelize = new Sequelize({
   //  Local
   database: "readymix",
   username: "postgres",
-  password: "admin",
+  password: "123456",
   host: "localhost",
   port: 5432,
   dialect: "postgres",

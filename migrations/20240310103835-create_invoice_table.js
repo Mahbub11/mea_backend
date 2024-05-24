@@ -56,8 +56,8 @@ module.exports = {
       },
 
       pump_charge: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        type:  Sequelize.DECIMAL(10, 2),
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
