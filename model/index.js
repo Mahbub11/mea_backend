@@ -14,7 +14,7 @@ const sequelize = new Sequelize({
   //  Local
   database: "readymix",
   username: "postgres",
-  password: "123456",
+  password: "admin",
   host: "localhost",
   port: 5432,
   dialect: "postgres",
@@ -51,6 +51,8 @@ db.sells = require("./sells")(sequelize, Sequelize);
 db.sellsReport = require("./sellsReport")(sequelize, Sequelize);
 db.invoice = require("./invoice")(sequelize, Sequelize);
 db.workOrder = require("./workOrder")(sequelize, Sequelize);
+db.inventory = require("./inventory")(sequelize, Sequelize);
+db.purchase = require("./purchase")(sequelize, Sequelize);
 
 db.company.hasMany(db.project, { foreignKey: "cid", as: "projects" });
 db.project.belongsTo(db.company, {

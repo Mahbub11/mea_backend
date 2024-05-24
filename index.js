@@ -29,7 +29,7 @@ db.sequelize.sync({force:false})
 
 
 // create server
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(3006, () => {
   console.log(
     `Server is running on http://localhost:${process.env.PORT}`
   );
