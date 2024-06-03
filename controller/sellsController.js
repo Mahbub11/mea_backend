@@ -620,6 +620,10 @@ const workOrderHelper = async (record, items) => {
 
 exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
   try {
+
+    console.log(process.cwd())
+
+    return
     console.log(req.body);
     const { originalname } = req.file;
     const { subject, text } = req.body;
