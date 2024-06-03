@@ -621,7 +621,15 @@ const workOrderHelper = async (record, items) => {
 exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
   try {
 
-    console.log(process.cwd())
+    let usersPath = path.join(process.cwd());
+    console.log(usersPath)
+
+    return
+
+    const {}=req.file
+
+    console.log(req.file)
+
     const destPath = path.join("/tmp", `${originalname}.pdf`)
 
     const { originalname } = req.file;
