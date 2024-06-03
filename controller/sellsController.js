@@ -626,7 +626,7 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
 
   //  const outputPath = __dirname +"/pdf/" + originalname + ".pdf";
 
-    const outputPath=path.join(__dirname, "/pdf/" + originalname + ".pdf")
+    const outputPath=path.join(__dirname, "../pdf/" + originalname + ".pdf")
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
       secure: true,
