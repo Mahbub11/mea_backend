@@ -6,6 +6,7 @@ const base64 = require("base64topdf");
 const PDFDocument = require("pdfkit");
 var blobStream = require("blob-stream");
 var fs = require("fs");
+var path= require("path");
 // const Company= db.company
 const Project = db.project;
 const Sells = db.sells;
@@ -623,7 +624,9 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
     const { originalname } = req.file;
     const { subject, text } = req.body;
 
-    const outputPath = "./pdf/" + originalname + ".pdf";
+  //  const outputPath = __dirname +"/pdf/" + originalname + ".pdf";
+
+    const outputPath=path.join(__dirname, "/pdf/" + originalname + ".pdf")
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
       secure: true,
