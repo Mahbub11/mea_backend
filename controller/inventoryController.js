@@ -11,6 +11,9 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
 
     const record = await Inventory.findOne({ raw: true });
 
+    
+   
+    
     await Inventory.update(
       {
         sand:
@@ -34,14 +37,14 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
           ),
 
         admixer:
-          parseFloat(record.cement) +
+          parseFloat(record.admixer) +
           parseFloat(
             (items.find((obj) => obj.itemName === "admixer") || { amount: "0" })
               .amount
           ),
 
         bricks_chips:
-          parseFloat(record.cement) +
+          parseFloat(record.bricks_chips) +
           parseFloat(
             (
               items.find((obj) => obj.itemName === "bricks_chips") || {
@@ -84,11 +87,7 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
               : { amount: "0", rate: "0" })(
             items.find((obj) => obj.itemName === "bricks_chips")
           ),
-          miscellaneous: ((item) =>
-            item
-              ? { amount: item.amount, ItemName: item.misItemName }
-              : { amount: "0", misItemName: "" })(
-            items.find((obj) => obj.itemName === "miscellaneous")
+          miscellaneous: items.filter((obj) => obj.itemName === "miscellaneous"
           ),
         }).then(() => {
           res.status(200).send({
@@ -102,6 +101,7 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler(err.errors[0].message, 400));
       });
 
+    return;
     items.map(async (value, index) => {
       const { itemName, rate, amount, misItemName } = value;
 
@@ -128,14 +128,14 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
   }
 });
 
-exports.getCompanyList = catchAsyncError(async (req, res, next) => {
+exports.getInventory = catchAsyncError(async (req, res, next) => {
   try {
     const id = req.params.id;
     let data = null;
     if (id) {
-      data = await Company.findByPk(id, { include: ["projects"] });
+      data = await Inventory.findByPk(id);
     } else {
-      data = await Company.findAll({ include: ["projects"] });
+      data = await Inventory.findOne();
     }
 
     if (!data) {
@@ -152,45 +152,27 @@ exports.getCompanyList = catchAsyncError(async (req, res, next) => {
   }
 });
 
-exports.updateCompany = catchAsyncError(async (req, res, next) => {
-  try {
-    const { id } = req.body;
-    const data = await Company.findByPk(id);
-
-    if (!data) {
-      return next(new ErrorHandler("Id is invalid!", 400));
-    } else {
-      const companyData = await Company.update(req.body, {
-        where: { id: id },
-      });
-
-      res.status(201).json({
-        success: true,
-        companyData,
-      });
-    }
-  } catch (error) {
-    return next(new ErrorHandler(error.errors[0].message, 400));
-  }
-});
-
-exports.deleteCompany = catchAsyncError(async (req, res, next) => {
+exports.getPrcaseList = catchAsyncError(async (req, res, next) => {
   try {
     const id = req.params.id;
-    const data = await Company.findByPk(id);
+    let data = null;
+    if (id) {
+      data = await PurchaseList.findByPk(id);
+    } else {
+      data = await PurchaseList.findAll();
+    }
+
     if (!data) {
       return next(new ErrorHandler("Id is invalid!", 400));
     } else {
-      await Company.destroy({
-        where: { id: id },
+      res.status(201).json({
+        success: true,
+        total: data.length,
+        data,
       });
     }
-
-    res.status(201).json({
-      success: true,
-      message: "Company Deleted successfully!",
-    });
   } catch (error) {
     return next(new ErrorHandler(error, 400));
   }
 });
+

@@ -62,10 +62,10 @@ exports.getSellsReportList = catchAsyncError(async (req, res, next) => {
     let data = null;
     if (id) {
       data = await sellsReport.findByPk(id, {
-        include: ["company", "project",'workorder'],
+        include: ["company", "project",'workorder','workOrderItems'],
       });
     } else {
-      data = await sellsReport.findAll({ include: ["company", "project",'workorder'] });
+      data = await sellsReport.findAll({ include: ["company", "project",'workorder','workOrderItems'] });
     }
 
     if (!data) {

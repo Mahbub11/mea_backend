@@ -22,19 +22,19 @@ module.exports = (sequelize, Sequelize) => {
     },
     
     total_amount:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(12, 2),
       allowNull: false,
       validate: {
         notNull: { msg: "Total amount needs to provide" },
       },
     },
     paid_amount:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(12, 2),
       allowNull: true,
       
     },
     prev_amount: {
-      type: Sequelize.DECIMAL(10, 2),
+      type: Sequelize.DECIMAL(12, 2),
       allowNull: true,
       defaultValue: 0
      
@@ -42,7 +42,7 @@ module.exports = (sequelize, Sequelize) => {
     tid:{
       type: Sequelize.BIGINT,
       allowNull: true,
-      references: { model: "sellsreports", key: "id" },
+   
       onDelete: "CASCADE",
       comment:'if this bill transfer to next sell,next sell id'
 
@@ -52,8 +52,8 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
     },
     pump_charge: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
+      type:  Sequelize.DECIMAL(10, 2),
+      allowNull: true,
     },
     due_date: {
       type: "TIMESTAMP",

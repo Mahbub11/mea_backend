@@ -12,23 +12,23 @@ module.exports = {
         autoIncrement:true
       },
       stone:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(7, 2),
         allowNull: true,
       },
       sand:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(7, 2),
         allowNull: true,
       },
       cement:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(7, 2),
         allowNull: true,
       },
       admixer:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(7, 2),
         allowNull: true,
       },
       bricks_chips:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(7, 2),
         allowNull: true,
       },
       createdAt: {

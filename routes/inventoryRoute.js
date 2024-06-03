@@ -4,7 +4,8 @@ const inventoryController= require('../controller/inventoryController');
 
 
 router.post('/create-item',inventoryController.addItemToInventory)
-// router.get('/get',projectController.getProjectList)
+router.get('/get',inventoryController.getInventory)
+router.get('/get-purchase',inventoryController.getPrcaseList)
 
 
 module.exports= router;

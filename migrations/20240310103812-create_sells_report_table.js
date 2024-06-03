@@ -32,20 +32,20 @@ module.exports = {
       },
      
       total_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(12, 2),
         allowNull: false,
         validate: {
           notNull: { msg: "Total amount needs to provide" },
         },
       },
       paid_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(12, 2),
         allowNull: true,
         defaultValue: 0
        
       },
       prev_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(12, 2),
         allowNull: true,
         defaultValue: 0
        
@@ -53,7 +53,7 @@ module.exports = {
       tid:{
         type: Sequelize.BIGINT,
         allowNull:true,
-        references: { model: "sellsreports", key: "id" },
+      
         onDelete: "CASCADE",
         comment:'if this bill transfer to next sell,next sell id'
 

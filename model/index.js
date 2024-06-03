@@ -12,30 +12,24 @@ const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize({
   //  Local
-  database: "readymix",
+  // database: "readymix",
+  // username: "postgres",
+  // password: "123456",
+  // host: "localhost",
+  // port: 5432,
+  // dialect: "postgres",
+
+    // Live
+  database: process.env.RDS_DB,
   username: "postgres",
-  password: "123456",
-  host: "localhost",
+  password:  process.env.RDS_DB_PASS,
+  host:  process.env.RDS_HOST,
   port: 5432,
   dialect: "postgres",
-
-  // database: "railway",
-  // username: "postgres",
-  // password: "aWiJIpNVygwKOHdnOqjDsurUJlPRQcFv",
-  // host: "monorail.proxy.rlwy.net",
-  // port: 52942,
-  // dialect: "postgres",
   // dialectOptions: {
   //   ssl: {
   //       rejectUnauthorized: false
   //   }
-  // },
-
-  // pool: {
-  //   max: dbConfig.pool.max,
-  //   min: dbConfig.pool.min,
-  //   acquire: dbConfig.pool.acquire,
-  //   idle: dbConfig.pool.idle,
   // },
 });
 
@@ -53,6 +47,7 @@ db.invoice = require("./invoice")(sequelize, Sequelize);
 db.workOrder = require("./workOrder")(sequelize, Sequelize);
 db.inventory = require("./inventory")(sequelize, Sequelize);
 db.purchase = require("./purchase")(sequelize, Sequelize);
+db.workOrderItems = require("./workOrderItems")(sequelize, Sequelize);
 
 db.company.hasMany(db.project, { foreignKey: "cid", as: "projects" });
 db.project.belongsTo(db.company, {
@@ -60,23 +55,44 @@ db.project.belongsTo(db.company, {
   as: "company",
 });
 
-db.project.hasMany(db.sells, { foreignKey: "pid", as: "sells" });
-db.sells.belongsTo(db.company, {
-  foreignKey: "cid",
-  as: "company",
-});
-db.sells.belongsTo(db.project, {
-  foreignKey: "pid",
-  as: "project",
+// db.project.hasMany(db.sells, { foreignKey: "pid", as: "sells" });
+// db.sells.belongsTo(db.company, {
+//   foreignKey: "cid",
+//   as: "company",
+// });
+// db.sells.belongsTo(db.project, {
+//   foreignKey: "pid",
+//   as: "project",
+// });
+
+db.workOrder.hasMany(db.workOrderItems, {
+  foreignKey: "wid",
+  as: "workOrderItems",
 });
 
 // db.sellsReport.hasOne(db.workOrder,{foreignKey:'wid',as:'workorder'})
 // db.workOrder.hasOne(db.company, { foreignKey: "cid", as: "company" });
 // db.workOrder.hasOne(db.project, { foreignKey: "pid", as: "project" });
 // db.sells.hasOne(db.workOrder, { foreignKey: "sid", as: "workorder" });
-db.sellsReport.hasMany(db.invoice, { foreignKey: "srid", as: "invoice" });
+// db.sellsReport.hasMany(db.invoice, { foreignKey: "srid", as: "invoice" });
 // db.sellsReport.hasOne(db.workOrder, { foreignKey: "srid", as: "workorder" });
 // db.sellsReport.hasOne(db.invoice, { foreignKey: "srid", as: "invoice" });
+// db.sellsReport.belongsTo(db.workOrderItems, {
+//   targetkey:'wid',
+//   foreignKey: "id",
+//   as: "workOrderItems",
+// });
+// db.sellsReport.belongsToMany(db.workOrderItems, {
+//   through: 'workOrder',
+//   foreignKey: "wid",
+//   targetkey:'wid',
+//   as: "workorder1",
+// });
+db.sellsReport.hasMany(db.workOrderItems, {
+  foreignKey: "wid",
+  sourceKey: "wid",
+  as: "workOrderItems",
+});
 
 db.sellsReport.belongsTo(db.workOrder, {
   foreignKey: "wid",
@@ -100,7 +116,5 @@ db.sellsReport.belongsTo(db.project, {
   foreignKey: "pid",
   as: "project",
 });
-
-
 
 module.exports = db;

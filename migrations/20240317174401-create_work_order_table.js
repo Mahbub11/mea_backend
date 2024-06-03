@@ -41,12 +41,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      items: {
-        type: Sequelize.JSON,
-        allowNull: false,
-      },
       total_amount:{
-        type:Sequelize.DECIMAL(10, 2),
+        type:Sequelize.DECIMAL(12, 2),
         allowNull: false,
         validate: {
           notNull: { msg: "Total amount needs to provide" },

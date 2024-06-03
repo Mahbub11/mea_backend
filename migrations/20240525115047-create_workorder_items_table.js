@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("invoices", {
+    await queryInterface.createTable("workorder_items", {
       id: {
         type: Sequelize.BIGINT,
         primaryKey: true,
@@ -11,54 +11,54 @@ module.exports = {
         onDelete: "CASCADE",
         autoIncrement: true,
       },
-      cid: {
+      wid: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        references: { model: "companys", key: "id" },
+        references: { model: "workorders", key: "id" },
         onDelete: "CASCADE",
       },
-      pid: {
-        type: Sequelize.BIGINT,
+      materials_Name: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: { model: "projects", key: "id" },
-        onDelete: "CASCADE",
       },
-      srid: {
-        type: Sequelize.BIGINT,
+      materials_category: {
+        type: Sequelize.SMALLINT,
         allowNull: false,
-        references: { model: "sellsreports", key: "id" },
-        onDelete: "CASCADE",
       },
-      invoice_number: {
-        type: Sequelize.TEXT,
+      materials_quantity: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
-        unique: true,
-        onDelete: "CASCADE",
+        validate: {
+          notNull: { msg: "Materials Quantity needs to provide" },
+        },
+      },
+      materials_rate: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Materials Rate needs to provide" },
+        },
+        
       },
 
-      total_amount: {
-        type: Sequelize.DECIMAL(12, 2),
+      cubic_meter: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
         validate: {
-          notNull: { msg: "Total amount needs to provide" },
+          notNull: { msg: "Cubic Meter needs to provide" },
         },
       },
-      vat: {
+
+      work_order_amount: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: true,
-        validate: {
-          notNull: { msg: "Paid Amount needs to provide" },
-        },
-      },
-      remarks: {
-        type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
 
       pump_charge: {
-        type:  Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: true,
       },
+      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

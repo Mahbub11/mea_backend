@@ -32,14 +32,14 @@ module.exports = (sequelize, Sequelize) => {
     },
     
     total_amount:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(12, 2),
       allowNull: false,
       validate: {
         notNull: { msg: "Total amount needs to provide" },
       },
     },
     vat:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(12, 2),
       allowNull: true,
      
     },
