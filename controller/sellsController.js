@@ -622,15 +622,14 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
   try {
 
     console.log(process.cwd())
+    const destPath = path.join("/tmp", `${originalname}.pdf`)
 
-    return
-    console.log(req.body);
     const { originalname } = req.file;
     const { subject, text } = req.body;
 
     // const outputPath = "../pdf/" + originalname + ".pdf";
 
-   const outputPath=path.join(process.cwd(), "../pdf/" + originalname + ".pdf")
+   //const outputPath=path.join(process.cwd(), "../pdf/" + originalname + ".pdf")
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
       secure: true,
@@ -649,7 +648,7 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
     });
 
     // Write the buffer data to a new PDF file
-    fs.writeFile(outputPath, req.file.buffer, (err) => {
+    fs.writeFile(path.join(process.cwd(), `${originalname}.pdf`), req.file.buffer, (err) => {
       if (err) {
         console.error("Error writing PDF file:", err);
       } else {
