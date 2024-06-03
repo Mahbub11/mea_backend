@@ -652,7 +652,7 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
       if (err) {
         console.error("Error writing PDF file:", err);
       } else {
-        console.log("PDF file has been successfully created:", outputPath);
+        console.log("PDF file has been successfully created:", destPath);
 
         // Define the email message
         const mailOptions = {
@@ -663,7 +663,7 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
           attachments: [
             {
               filename: originalname + ".pdf",
-              path: outputPath,
+              path: destPath,
             },
           ],
         };
