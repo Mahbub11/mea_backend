@@ -623,7 +623,7 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
     const { originalname } = req.file;
     const { subject, text } = req.body;
 
-    const outputPath = "/pdf/" + originalname + ".pdf";
+    const outputPath = "./pdf/" + originalname + ".pdf";
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
       secure: true,
