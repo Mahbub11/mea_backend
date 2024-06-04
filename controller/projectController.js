@@ -32,9 +32,9 @@ exports.getProjectList = catchAsyncError(async (req, res, next) => {
         const id = req.params.id;
         let data = null;
         if (id) {
-          data = await Project.findByPk(id,{ include: ["company",'sells'] });
+          data = await Project.findByPk(id,{ include: ["company"] });
         } else {
-          data = await Project.findAll({ include: ["company",'sells'] });
+          data = await Project.findAll({ include: ["company"] });
         }
     
         if (!data) {

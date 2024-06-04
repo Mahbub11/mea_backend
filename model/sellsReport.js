@@ -64,7 +64,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       defaultValue: 0,
     },
-    
+    last_print: {
+      type: "TIMESTAMP",
+      allowNull: true,
+    },
     createdAt: {
       type: "TIMESTAMP",
       defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),

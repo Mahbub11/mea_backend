@@ -6,7 +6,6 @@ const base64 = require("base64topdf");
 const PDFDocument = require("pdfkit");
 var blobStream = require("blob-stream");
 var fs = require("fs");
-var path= require("path");
 // const Company= db.company
 const Project = db.project;
 const Sells = db.sells;
@@ -620,24 +619,10 @@ const workOrderHelper = async (record, items) => {
 
 exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
   try {
-
-    let usersPath = path.join(process.cwd());
-    console.log(usersPath)
-
-    return
-
-    const {}=req.file
-
-    console.log(req.file)
-
-    const destPath = path.join("/tmp", `${originalname}.pdf`)
-
     const { originalname } = req.file;
+    let usersPath ="/tmp/${originalname}.pdf"
+  
     const { subject, text } = req.body;
-
-    // const outputPath = "../pdf/" + originalname + ".pdf";
-
-   //const outputPath=path.join(process.cwd(), "../pdf/" + originalname + ".pdf")
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
       secure: true,
@@ -656,22 +641,22 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
     });
 
     // Write the buffer data to a new PDF file
-    fs.writeFile(path.join(process.cwd(), `${originalname}.pdf`), req.file.buffer, (err) => {
+    fs.writeFile(usersPath, req.file.buffer, (err) => {
       if (err) {
         console.error("Error writing PDF file:", err);
       } else {
-        console.log("PDF file has been successfully created:", destPath);
+        console.log("PDF file has been successfully created:", usersPath);
 
         // Define the email message
         const mailOptions = {
-          from: "PracticeCompanions <info@practicecompanions.com>",
+          from: "SMART CONSTRUCTION LTD <info@scs-rmcbd.com>",
           to: "mahbubrahim926@gmail.com",
           subject: subject,
           text: text,
           attachments: [
             {
               filename: originalname + ".pdf",
-              path: destPath,
+              path: usersPath,
             },
           ],
         };

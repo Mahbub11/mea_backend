@@ -56,9 +56,10 @@ module.exports = {
       },
 
       pump_charge: {
-        type:  Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: true,
       },
+     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

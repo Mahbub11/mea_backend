@@ -87,6 +87,8 @@ exports.updateSellsReport = catchAsyncError(async (req, res, next) => {
     const { id } = req.body;
     const data = await sellsReport.findByPk(id);
 
+    
+
     if (!data) {
       return next(new ErrorHandler("Id is invalid!", 400));
     } else {

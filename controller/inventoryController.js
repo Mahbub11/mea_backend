@@ -11,9 +11,6 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
 
     const record = await Inventory.findOne({ raw: true });
 
-    
-   
-    
     await Inventory.update(
       {
         sand:
@@ -87,7 +84,8 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
               : { amount: "0", rate: "0" })(
             items.find((obj) => obj.itemName === "bricks_chips")
           ),
-          miscellaneous: items.filter((obj) => obj.itemName === "miscellaneous"
+          miscellaneous: items.filter(
+            (obj) => obj.itemName === "miscellaneous"
           ),
         }).then(() => {
           res.status(200).send({
@@ -101,27 +99,6 @@ exports.addItemToInventory = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler(err.errors[0].message, 400));
       });
 
-    return;
-    items.map(async (value, index) => {
-      const { itemName, rate, amount, misItemName } = value;
-
-      console.log(amount, itemName);
-      await Inventory.create({ itemName: amount });
-    });
-
-    console.log(items);
-
-    return;
-    await Company.create({ name, description, address, email, phone })
-      .then((data) => {
-        res.status(200).send({
-          success: true,
-          message: "Company Created Successfully",
-        });
-      })
-      .catch((err) => {
-        return next(new ErrorHandler(err.errors[0].message, 400));
-      });
   } catch (error) {
     console.log(error);
     return next(new ErrorHandler("Company Creating Failed", 400));
@@ -175,4 +152,3 @@ exports.getPrcaseList = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(error, 400));
   }
 });
-

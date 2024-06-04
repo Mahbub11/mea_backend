@@ -19,11 +19,11 @@ const sequelize = new Sequelize({
   // port: 5432,
   // dialect: "postgres",
 
-    // Live
+  // Live
   database: process.env.RDS_DB,
   username: "postgres",
-  password:  process.env.RDS_DB_PASS,
-  host:  process.env.RDS_HOST,
+  password: process.env.RDS_DB_PASS,
+  host: process.env.RDS_HOST,
   port: 5432,
   dialect: "postgres",
   // dialectOptions: {
