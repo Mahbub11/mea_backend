@@ -208,13 +208,25 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
       console.log("Processing item:", val);
       console.log("Calculated amount to subtract:", calculateSand);
 
-      if (
-        parseFloat(record.sand) - calculateSand >= 0 &&
-        parseFloat(record.cement) - calculateCement >= 0 &&
-        parseFloat(record.stone) - calculateStone >= 0 &&
-        parseFloat(record.admixer) - calculateAdmixer >= 0
-      ) {
+      const insufficientMaterials = [];
+
+      if (parseFloat(record.sand) - calculateSand < 0) {
+        insufficientMaterials.push("Sand");
+      }
+      if (parseFloat(record.cement) - calculateCement < 0) {
+        insufficientMaterials.push("Cement");
+      }
+      if (parseFloat(record.stone) - calculateStone < 0) {
+        insufficientMaterials.push("Stone");
+      }
+      if (parseFloat(record.admixer) - calculateAdmixer < 0) {
+        insufficientMaterials.push("Admixer");
+      }
+    
+      // Check if all quantities will remain non-negative before updating
+      if (insufficientMaterials.length === 0) {
         try {
+          // Perform the update
           await Inventory.update(
             {
               sand: parseFloat(record.sand) - calculateSand,
@@ -222,25 +234,27 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
               stone: parseFloat(record.stone) - calculateStone,
               admixer: parseFloat(record.admixer) - calculateAdmixer,
             },
-
             { where: { id: 1 } }
           );
-
-          // Assuming record.sand should be updated to reflect the change for the next iteration
+    
+          // Update the record after successful update
           record.sand -= calculateSand;
           record.cement -= calculateCement;
           record.stone -= calculateStone;
           record.admixer -= calculateAdmixer;
-
-          // Log after updating
-          console.log("Item processed, current sand value:", record.sand);
+    
+          console.log("Item processed, inventory updated successfully.");
         } catch (err) {
-          console.error("Error saving item:", err);
+          console.error("Error updating inventory:", err);
         }
       } else {
-        res.status(500).send({
+        console.log(`Insufficient quantities for
+         ${insufficientMaterials.join(', ')}. Inventory not updated.`);
+
+         res.status(500).send({
           success: false,
-          message: "Not enough items in Inventory",
+          message: `Insufficient balance for
+          ${insufficientMaterials.join(', ')}`
         });
         return
       }
@@ -313,13 +327,25 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
       console.log("Processing item:", val);
       console.log("Calculated amount to subtract:", calculateSand);
 
-      if (
-        parseFloat(record.sand) - calculateSand >= 0 &&
-        parseFloat(record.cement) - calculateCement >= 0 &&
-        parseFloat(record.stone) - calculateStone >= 0 &&
-        parseFloat(record.admixer) - calculateAdmixer >= 0
-      ) {
+      const insufficientMaterials = [];
+
+      if (parseFloat(record.sand) - calculateSand < 0) {
+        insufficientMaterials.push("Sand");
+      }
+      if (parseFloat(record.cement) - calculateCement < 0) {
+        insufficientMaterials.push("Cement");
+      }
+      if (parseFloat(record.stone) - calculateStone < 0) {
+        insufficientMaterials.push("Stone");
+      }
+      if (parseFloat(record.admixer) - calculateAdmixer < 0) {
+        insufficientMaterials.push("Admixer");
+      }
+    
+      // Check if all quantities will remain non-negative before updating
+      if (insufficientMaterials.length === 0) {
         try {
+          // Perform the update
           await Inventory.update(
             {
               sand: parseFloat(record.sand) - calculateSand,
@@ -327,44 +353,50 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
               stone: parseFloat(record.stone) - calculateStone,
               admixer: parseFloat(record.admixer) - calculateAdmixer,
             },
-
             { where: { id: 1 } }
           );
-
-          // Assuming record.sand should be updated to reflect the change for the next iteration
+    
+          // Update the record after successful update
           record.sand -= calculateSand;
           record.cement -= calculateCement;
           record.stone -= calculateStone;
           record.admixer -= calculateAdmixer;
-
-          // Log after updating
-          console.log("Item processed, current sand value:", record.sand);
+    
+          console.log("Item processed, inventory updated successfully.");
         } catch (err) {
-          console.error("Error saving item:", err);
+          console.error("Error updating inventory:", err);
         }
       } else {
-        res.status(500).send({
+        console.log(`Insufficient quantities for
+         ${insufficientMaterials.join(', ')}. Inventory not updated.`);
+
+         res.status(500).send({
           success: false,
-          message: "Not enough Balance in Inventory",
+          message: `Insufficient balance for
+          ${insufficientMaterials.join(', ')}`
         });
         return
       }
     } else if (parseInt(val.materials_category) === 30) {
-      const calculateSand = calculateAmountSand(val);
-      const calculateCement = calculateAmountCement(val);
-      const calculateStone = calculateAmountStone(val);
-      const calculateAdmixer = calculateAmountAdmixer(val);
+      const insufficientMaterials = [];
 
-      console.log("Processing item:", val);
-      console.log("Calculated amount to subtract:", calculateSand);
-
-      if (
-        parseFloat(record.sand) - calculateSand >= 0 &&
-        parseFloat(record.cement) - calculateCement >= 0 &&
-        parseFloat(record.stone) - calculateStone >= 0 &&
-        parseFloat(record.admixer) - calculateAdmixer >= 0
-      ) {
+      if (parseFloat(record.sand) - calculateSand < 0) {
+        insufficientMaterials.push("Sand");
+      }
+      if (parseFloat(record.cement) - calculateCement < 0) {
+        insufficientMaterials.push("Cement");
+      }
+      if (parseFloat(record.stone) - calculateStone < 0) {
+        insufficientMaterials.push("Stone");
+      }
+      if (parseFloat(record.admixer) - calculateAdmixer < 0) {
+        insufficientMaterials.push("Admixer");
+      }
+    
+      // Check if all quantities will remain non-negative before updating
+      if (insufficientMaterials.length === 0) {
         try {
+          // Perform the update
           await Inventory.update(
             {
               sand: parseFloat(record.sand) - calculateSand,
@@ -372,25 +404,27 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
               stone: parseFloat(record.stone) - calculateStone,
               admixer: parseFloat(record.admixer) - calculateAdmixer,
             },
-
             { where: { id: 1 } }
           );
-
-          // Assuming record.sand should be updated to reflect the change for the next iteration
+    
+          // Update the record after successful update
           record.sand -= calculateSand;
           record.cement -= calculateCement;
           record.stone -= calculateStone;
           record.admixer -= calculateAdmixer;
-
-          // Log after updating
-          console.log("Item processed, current sand value:", record.sand);
+    
+          console.log("Item processed, inventory updated successfully.");
         } catch (err) {
-          console.error("Error saving item:", err);
+          console.error("Error updating inventory:", err);
         }
       } else {
-        res.status(500).send({
+        console.log(`Insufficient quantities for
+         ${insufficientMaterials.join(', ')}. Inventory not updated.`);
+
+         res.status(500).send({
           success: false,
-          message: "Not enough Balance in Inventory",
+          message: `Insufficient balance for
+          ${insufficientMaterials.join(', ')}`
         });
         return
       }
@@ -402,14 +436,25 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
 
       console.log("Processing item:", val);
       console.log("Calculated amount to subtract:", calculateSand);
+      const insufficientMaterials = [];
 
-      if (
-        parseFloat(record.sand) - calculateSand >= 0 &&
-        parseFloat(record.cement) - calculateCement >= 0 &&
-        parseFloat(record.stone) - calculateStone >= 0 &&
-        parseFloat(record.admixer) - calculateAdmixer >= 0
-      ) {
+      if (parseFloat(record.sand) - calculateSand < 0) {
+        insufficientMaterials.push("Sand");
+      }
+      if (parseFloat(record.cement) - calculateCement < 0) {
+        insufficientMaterials.push("Cement");
+      }
+      if (parseFloat(record.stone) - calculateStone < 0) {
+        insufficientMaterials.push("Stone");
+      }
+      if (parseFloat(record.admixer) - calculateAdmixer < 0) {
+        insufficientMaterials.push("Admixer");
+      }
+    
+      // Check if all quantities will remain non-negative before updating
+      if (insufficientMaterials.length === 0) {
         try {
+          // Perform the update
           await Inventory.update(
             {
               sand: parseFloat(record.sand) - calculateSand,
@@ -417,25 +462,27 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
               stone: parseFloat(record.stone) - calculateStone,
               admixer: parseFloat(record.admixer) - calculateAdmixer,
             },
-
             { where: { id: 1 } }
           );
-
-          // Assuming record.sand should be updated to reflect the change for the next iteration
+    
+          // Update the record after successful update
           record.sand -= calculateSand;
           record.cement -= calculateCement;
           record.stone -= calculateStone;
           record.admixer -= calculateAdmixer;
-
-          // Log after updating
-          console.log("Item processed, current sand value:", record.sand);
+    
+          console.log("Item processed, inventory updated successfully.");
         } catch (err) {
-          console.error("Error saving item:", err);
+          console.error("Error updating inventory:", err);
         }
       } else {
-        res.status(500).send({
+        console.log(`Insufficient quantities for
+         ${insufficientMaterials.join(', ')}. Inventory not updated.`);
+
+         res.status(500).send({
           success: false,
-          message: "Not enough Balance in Inventory",
+          message: `Insufficient balance for
+          ${insufficientMaterials.join(', ')}`
         });
         return
       }
@@ -447,14 +494,25 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
 
       console.log("Processing item:", val);
       console.log("Calculated amount to subtract:", calculateSand);
+      const insufficientMaterials = [];
 
-      if (
-        parseFloat(record.sand) - calculateSand >= 0 &&
-        parseFloat(record.cement) - calculateCement >= 0 &&
-        parseFloat(record.stone) - calculateStone >= 0 &&
-        parseFloat(record.admixer) - calculateAdmixer >= 0
-      ) {
+      if (parseFloat(record.sand) - calculateSand < 0) {
+        insufficientMaterials.push("Sand");
+      }
+      if (parseFloat(record.cement) - calculateCement < 0) {
+        insufficientMaterials.push("Cement");
+      }
+      if (parseFloat(record.stone) - calculateStone < 0) {
+        insufficientMaterials.push("Stone");
+      }
+      if (parseFloat(record.admixer) - calculateAdmixer < 0) {
+        insufficientMaterials.push("Admixer");
+      }
+    
+      // Check if all quantities will remain non-negative before updating
+      if (insufficientMaterials.length === 0) {
         try {
+          // Perform the update
           await Inventory.update(
             {
               sand: parseFloat(record.sand) - calculateSand,
@@ -462,27 +520,28 @@ const workOrderHelper = async ({ record, items, res, wdata, next }) => {
               stone: parseFloat(record.stone) - calculateStone,
               admixer: parseFloat(record.admixer) - calculateAdmixer,
             },
-
             { where: { id: 1 } }
           );
-
-          // Assuming record.sand should be updated to reflect the change for the next iteration
+    
+          // Update the record after successful update
           record.sand -= calculateSand;
           record.cement -= calculateCement;
           record.stone -= calculateStone;
           record.admixer -= calculateAdmixer;
-
-          // Log after updating
-          console.log("Item processed, current sand value:", record.sand);
+    
+          console.log("Item processed, inventory updated successfully.");
         } catch (err) {
-          console.error("Error saving item:", err);
+          console.error("Error updating inventory:", err);
         }
       } else {
-        res.status(500).send({
-          success: false,
-          message: "Not enough Balance in Inventory",
-        });
+        console.log(`Insufficient quantities for
+         ${insufficientMaterials.join(', ')}. Inventory not updated.`);
 
+         res.status(500).send({
+          success: false,
+          message: `Insufficient balance for
+          ${insufficientMaterials.join(', ')}`
+        });
         return
       }
     }
