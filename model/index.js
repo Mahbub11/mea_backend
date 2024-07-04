@@ -26,11 +26,11 @@ const sequelize = new Sequelize({
   host: process.env.RDS_HOST,
   port: 5432,
   dialect: "postgres",
-  // dialectOptions: {
-  //   ssl: {
-  //       rejectUnauthorized: false
-  //   }
-  // },
+  dialectOptions: {
+    ssl: {
+        rejectUnauthorized: false
+    }
+  },
 });
 
 const db = {};
