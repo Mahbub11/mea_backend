@@ -16,101 +16,94 @@ const WorkOrder = db.workOrder;
 
 const calculateAmountSand = (item) => {
   switch (parseInt(item.materials_category)) {
+    case 20:
+      return parseFloat(((item.cubic_meter * 770) / 38).toFixed(3));
     case 21:
-      return (item.cubic_meter * 865) / 3;
-
+      return parseFloat(((item.cubic_meter * 885) / 38).toFixed(3));
     case 25:
-      return (item.cubic_meter * 850) / 35;
-
+      return parseFloat(((item.cubic_meter * 900) / 38).toFixed(3));
     case 28:
-      return (item.cubic_meter * 820) / 35;
-
+      return parseFloat(((item.cubic_meter * 820) / 38).toFixed(3));
     case 30:
-      return (item.cubic_meter * 820) / 35;
-
+      return parseFloat(((item.cubic_meter * 820) / 38).toFixed(3));
     case 32:
-      return (item.cubic_meter * 810) / 35;
-
+      return parseFloat(((item.cubic_meter * 810) / 38).toFixed(3));
     case 35:
-      return (item.cubic_meter * 770) / 35;
-
+      return parseFloat(((item.cubic_meter * 800) / 38).toFixed(3));
     default:
       return 0;
   }
 };
+
 
 const calculateAmountCement = (item) => {
   switch (parseInt(item.materials_category)) {
+    case 20:
+      return parseFloat(((item.cubic_meter * 350) / 1000).toFixed(3));
     case 21:
-      return (item.cubic_meter * 370) / 1000;
-
+      return parseFloat(((item.cubic_meter * 350) / 1000).toFixed(3));
     case 25:
-      return (item.cubic_meter * 385) / 1000;
-
+      return parseFloat(((item.cubic_meter * 350) / 1000).toFixed(3));
     case 28:
-      return (item.cubic_meter * 400) / 1000;
-
+      return parseFloat(((item.cubic_meter * 385) / 1000).toFixed(3));
     case 30:
-      return (item.cubic_meter * 400) / 1000;
-
+      return parseFloat(((item.cubic_meter * 385) / 1000).toFixed(3));
     case 32:
-      return (item.cubic_meter * 410) / 1000;
-
+      return parseFloat(((item.cubic_meter * 400) / 1000).toFixed(3));
     case 35:
-      return (item.cubic_meter * 430) / 1000;
-
+      return parseFloat(((item.cubic_meter * 420) / 1000).toFixed(3));
     default:
       return 0;
   }
 };
+
 const calculateAmountStone = (item) => {
   switch (parseInt(item.materials_category)) {
     case 21:
-      return (item.cubic_meter * 1075) / 1000;
-
+      return parseFloat(((item.cubic_meter * 1052) / 1000).toFixed(3));
     case 25:
-      return (item.cubic_meter * 1040) / 1000;
-
+      return parseFloat(((item.cubic_meter * 1022) / 1000).toFixed(3));
     case 28:
-      return (item.cubic_meter * 1040) / 1000;
-
     case 30:
-      return (item.cubic_meter * 1040) / 1000;
-
     case 32:
-      return (item.cubic_meter * 1040) / 1000;
-
     case 35:
-      return (item.cubic_meter * 1060) / 1000;
-
+      return parseFloat(((item.cubic_meter * 1040) / 1000).toFixed(3));
     default:
       return 0;
   }
 };
+
+
 
 const calculateAmountAdmixer = (item) => {
   switch (parseInt(item.materials_category)) {
+    case 20:
     case 21:
-      return item.cubic_meter * 1.5;
-
+      return parseFloat((item.cubic_meter * 1.5).toFixed(3));
     case 25:
-      return item.cubic_meter * 2.5;
+      return parseFloat((item.cubic_meter * 2).toFixed(3));
     case 28:
-      return item.cubic_meter * 3;
-
     case 30:
-      return item.cubic_meter * 3;
-
+      return parseFloat((item.cubic_meter * 2.5).toFixed(3));
     case 32:
-      return item.cubic_meter * 3.5;
-
+      return parseFloat((item.cubic_meter * 3).toFixed(3));
     case 35:
-      return item.cubic_meter * 3.5;
-
+      return parseFloat((item.cubic_meter * 3.5).toFixed(3));
     default:
       return 0;
   }
 };
+
+
+const calculateAmountBricks = (item) => {
+  switch (parseInt(item.materials_category)) {
+    case 20:
+      return parseFloat(((item.cubic_meter * 1032) / 33).toFixed(3));
+    default:
+      return 0;
+  }
+};
+
 exports.createSells = catchAsyncError(async (req, res, next) => {
   try {
     const {
@@ -236,7 +229,74 @@ const workOrderHelper = async (record, items) => {
   console.log("Initial sand value:", record.sand);
 
   for (const val of items) {
-    if (parseInt(val.materials_category) === 21) {
+    if (parseInt(val.materials_category) === 20) {
+      let totalSand = 0;
+      let totalCement = 0;
+      let totalBricks = 0;
+      let totalAdmixer = 0;
+
+      for (const val of items) {
+        const calculateSand = calculateAmountSand(val);
+        const calculateCement = calculateAmountCement(val);
+        const calculateBricks = calculateAmountBricks(val);
+        const calculateAdmixer = calculateAmountAdmixer(val);
+
+        console.log("Processing item:", val);
+        console.log(
+          "Calculated amounts to add/subtract:",
+          calculateSand,
+          calculateCement,
+          calculateBricks,
+          calculateAdmixer
+        );
+
+        totalSand += calculateSand;
+        totalCement += calculateCement;
+        totalBricks += calculateBricks;
+        totalAdmixer += calculateAdmixer;
+      }
+
+      console.log(
+        "Total changes to inventory - Sand:",
+        totalSand,
+        "Cement:",
+        totalCement,
+        "Stone:",
+        totalBricks,
+        "Admixer:",
+        totalAdmixer
+      );
+
+      try {
+        await Inventory.update(
+          {
+            sand: parseFloat(record.sand) + totalSand,
+            cement: parseFloat(record.cement) + totalCement,
+            bricks_chips: parseFloat(record.bricks_chips) + totalBricks,
+            admixer: parseFloat(record.admixer) + totalAdmixer,
+          },
+          { where: { id: 1 } }
+        );
+
+        // Update record values for the next use
+        record.sand += totalSand;
+        record.cement += totalCement;
+        record.bricks_chips += totalBricks;
+        record.admixer += totalAdmixer;
+        console.log(
+          "Inventory updated successfully. Current values - Sand:",
+          record.sand,
+          "Cement:",
+          record.cement,
+          "Stone:",
+          record.bricks_chips,
+          "Admixer:",
+          record.admixer
+        );
+      } catch (err) {
+        console.error("Error updating inventory:", err);
+      }
+    } else if (parseInt(val.materials_category) === 21) {
       let totalSand = 0;
       let totalCement = 0;
       let totalStone = 0;
@@ -620,8 +680,8 @@ const workOrderHelper = async (record, items) => {
 exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
   try {
     const { originalname } = req.file;
-    let usersPath ="/tmp/${originalname}.pdf"
-  
+    let usersPath = "/tmp/${originalname}.pdf";
+
     const { subject, text } = req.body;
     var transporter = nodemailer.createTransport({
       host: process.env.SMPT_HOST,
@@ -675,7 +735,6 @@ exports.sendPdfFile = catchAsyncError(async (req, res, next) => {
               success: true,
               message: "Email sent successfully.",
             });
-
           }
 
           // Delete the PDF file after sending the email

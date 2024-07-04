@@ -20,49 +20,49 @@ module.exports = (sequelize, Sequelize) => {
       onDelete: "CASCADE",
     },
     mpa:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "mpa needs to provide" },
       },
     },
     stone:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "stone needs to provide" },
       },
     },
     sand:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "sand needs to provide" },
       },
     },
     cement:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "cement needs to provide" },
       },
     },
     admixer:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "admixer needs to provide" },
       },
     },
     cubic_meter:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "cubic_meter needs to provide" },
       },
     },
     cft_quantity:{
-      type:Sequelize.DECIMAL(10, 2),
+      type:Sequelize.DECIMAL(10, 3),
       allowNull: false,
       validate: {
         notNull: { msg: "cft needs to provide" },
